@@ -5,7 +5,7 @@ describe("updating records", () =>{
     let joe;
 
     beforeEach((done) => {
-        joe = new User({ name: "Joe"})
+        joe = new User({ name: "Joe", postCount: 0})
         joe.save()
             .then(() => done());
     });
@@ -46,5 +46,15 @@ describe("updating records", () =>{
         assertName(
             User.findByIdAndUpdate(joe._id, {name: "Alex"})
             ,done);
+    });
+
+    // mongo db update operators
+    it("A user can have their postCount incremented by 1", (done) => {
+        User.updateMany({name: "Joe"}, {$inc: {postCount: 1} })
+            .then(() => User.findOne({name: "Joe"}))
+            .then((user) => {    
+                assert(user.postCount === 1);
+                    done();
+        });
     });
 });
