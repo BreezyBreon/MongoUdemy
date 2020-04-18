@@ -13,10 +13,17 @@ before((done) => {
 
 
 // hook is a function that will be executed first before any other code
-
+// when mongo brings in the collections, it lowercases everything (blogPosts = blogposts)
 beforeEach((done) => {
-    mongoose.connection.collections.users.drop(() => {
-        // ready to run the next test
-        done();
+    const {users, comments, blogposts } = mongoose.connection.collections;
+
+
+
+   users.drop(() => {
+       comments.drop(() => {
+           blogposts.drop(() => {
+            done();
+           });
+       });
     });
 });
