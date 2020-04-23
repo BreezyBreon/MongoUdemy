@@ -26,8 +26,4 @@ describe('Middleware', () => {
             });
     });
 
-
-
-
-
 });
